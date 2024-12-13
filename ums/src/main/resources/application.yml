@@ -1,0 +1,52 @@
+spring:
+  application:
+    name: ums
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.100.157:3306/user_center
+    username: root
+    password: root
+  redis:
+    port: 6379
+    database: 0
+    host: 192.168.100.157
+
+mybatis-plus:
+  global-config:
+    db-config:
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+  configuration:
+    map-underscore-to-camel-case: true
+  type-handlers-package:
+    com.huangsf.ums.mapper.handler
+
+
+## 接口文档配置
+knife4j:
+  enable: true
+  openapi:
+    title: "接口文档"
+    version: 1.0
+    group:
+      default:
+        api-rule: package
+        api-rule-resources:
+          - com.huangsf.ums.controller
+server:
+  port: 8080
+
+# token过期时间
+token:
+  expire-time: 7200
+
+# 白名单配置
+white-list:
+  urls:
+    - /user/login
+    - /user/logout
+    - /user/getCapture
+    - /user/register
+
