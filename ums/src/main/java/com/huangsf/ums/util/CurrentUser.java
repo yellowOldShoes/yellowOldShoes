@@ -12,6 +12,6 @@ import lombok.Data;
 public class CurrentUser {
     private Long id;
     private String account;
-    private String mobile;
+    private String name;
 //    private String role;
 }

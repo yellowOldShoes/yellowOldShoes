@@ -36,4 +36,6 @@ public class BooleanToIntegerConvert extends BaseTypeHandler<Boolean> {
         int value = callableStatement.getInt(i);
         return value != 0;
     }
+
+
 }

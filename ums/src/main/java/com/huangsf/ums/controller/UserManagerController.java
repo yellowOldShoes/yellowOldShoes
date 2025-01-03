@@ -96,11 +96,12 @@ public class UserManagerController {
 //    @ApiImplicitParams({
 //            @ApiImplicitParam(name = "Authorization", value = "用户认证令牌", required = true, dataType = "string", paramType = "header", defaultValue = "Bearer token")
 //    })
-    public BaseResponse login(@ApiParam(name = "username",value = "用户名")String username,
-                              @ApiParam(name="password",value = "密码")String password,
-                              @ApiParam(name="captcha",value="验证码")String captcha){
 
-        LoginVo loginResult = userService.login(username, password, captcha);
+    public BaseResponse login(@ApiParam(name = "username",value = "用户名") @RequestParam("username") String username,
+                              @ApiParam(name="password",value = "密码") @RequestParam("password")String password,
+                              @ApiParam(name="capture",value="验证码") @RequestParam("capture")String capture){
+
+        LoginVo loginResult = userService.login(username, password, capture);
         return ResultUtils.success(loginResult);
     }
 
@@ -118,14 +119,22 @@ public class UserManagerController {
         CurrentUser currentUser = JwtUtils.getCurrentUser(auth);
 
 
-        return null;
+        return ResultUtils.success(currentUser);
+    }
+
+    @GetMapping("/getCurrentUser")
+    @ApiOperation(value = "获取当前登录用户")
+    public BaseResponse getCurrentUser(@RequestHeader("Authorization") String auth){
+
+        CurrentUser currentUser = JwtUtils.getCurrentUser(auth);
+        return ResultUtils.success(currentUser);
     }
 
     /**
      * 添加用户
      * @return
      */
-    public BaseResponse addUser(){
+    public BaseResponse addUser(@RequestHeader("Authorization") String auth){
 
 
 

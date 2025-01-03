@@ -1,8 +1,10 @@
 package com.huangsf.ums.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.huangsf.ums.mapper.enums.SexEnum;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -30,7 +32,7 @@ public class User implements Serializable {
 
     private String mobile;
 
-    private String sex;
+    private SexEnum sex;
 
     private Boolean status;
 
@@ -42,7 +44,7 @@ public class User implements Serializable {
 
     private Integer passwordErrorNum;
 
-    private String passCode;
+//    private String passCode;
 
     private Date passwordExpireTime;
 

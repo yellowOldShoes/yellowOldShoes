@@ -70,7 +70,7 @@ public class TokenFilter implements Filter {
             return;
         }
         //校验失败,向前端响应失败的Result对象转成的json串
-        BaseResponse res = ResultUtils.error(ErrorCode.PARAMS_ERROR, "请登录");
+        BaseResponse res = ResultUtils.error(ErrorCode.NOT_LOGIN_ERROR, "请登录");
         String jsonStr = JSONUtil.toJsonStr(res);
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter out = response.getWriter();

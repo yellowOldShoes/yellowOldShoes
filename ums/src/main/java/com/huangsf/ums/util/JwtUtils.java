@@ -31,12 +31,12 @@ public class JwtUtils {
     //token中存放用户id对应的名字
     private static final String CLAIM_NAME_USERID = "CLAIM_NAME_USERID";
     //token中存放用户名对应的名字
-    private static final String CLAIM_NAME_USERPROFILE = "CLAIM_NAME_USERPROFILE";
+    private static final String CLAIM_NAME_ACCOUNT = "CLAIM_NAME_ACCOUNT";
     //token中存放用户真实姓名对应的名字
     private static final String CLAIM_NAME_USERNAME = "CLAIM_NAME_USERNAME";
 
     private String sign(CurrentUser currentUser, String securityKey) {
-        String token = JWT.create().withClaim(CLAIM_NAME_USERID, currentUser.getId()).withClaim(CLAIM_NAME_USERPROFILE, currentUser.getMobile()).withClaim(CLAIM_NAME_USERNAME, currentUser.getAccount()).withIssuedAt(new Date())//发行时间
+        String token = JWT.create().withClaim(CLAIM_NAME_USERID, currentUser.getId()).withClaim(CLAIM_NAME_ACCOUNT, currentUser.getAccount()).withClaim(CLAIM_NAME_USERNAME, currentUser.getName()).withIssuedAt(new Date())//发行时间
                 .withExpiresAt(new Date(System.currentTimeMillis() + expireTime * 1000))//有效时间
                 .sign(Algorithm.HMAC256(securityKey));
 
@@ -72,12 +72,12 @@ public class JwtUtils {
         }
         //从解码后的token中获取用户信息并封装到CurrentUser对象中返回
         Long userId = decodedJWT.getClaim(CLAIM_NAME_USERID).asLong();//用户账号id
-        String userProfile = decodedJWT.getClaim(CLAIM_NAME_USERPROFILE).asString();//用户昵称
+        String ACCOUNT = decodedJWT.getClaim(CLAIM_NAME_ACCOUNT).asString();//用户昵称
         String userName = decodedJWT.getClaim(CLAIM_NAME_USERNAME).asString();//用户姓名
-        if (StringUtils.isEmpty(userProfile) || StringUtils.isEmpty(userName)) {
+        if (StringUtils.isEmpty(ACCOUNT) || StringUtils.isEmpty(userName)) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "令牌缺失用户信息，请登录！");
         }
-        return new CurrentUser(userId,userName,userProfile);
+        return new CurrentUser(userId,userName,ACCOUNT);
     }
 
 }

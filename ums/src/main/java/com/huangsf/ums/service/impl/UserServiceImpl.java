@@ -6,7 +6,7 @@ import com.huangsf.ums.common.ErrorCode;
 import com.huangsf.ums.dto.RegisterDto;
 import com.huangsf.ums.entity.User;
 import com.huangsf.ums.exception.BusinessException;
-import com.huangsf.ums.mapper.UserMapper;
+import com.huangsf.ums.mapper.sys.UserMapper;
 import com.huangsf.ums.service.UserService;
 import com.huangsf.ums.util.CurrentUser;
 import com.huangsf.ums.util.JwtUtils;
@@ -92,7 +92,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "账号、密码不能为空!");
         }
 
-        if(captcha==null||captcha.equals(stringRedisTemplate.opsForValue().get(captcha))){
+        if(captcha==null||!captcha.equals(stringRedisTemplate.opsForValue().get(captcha))){
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "验证码错误，请重新输入");
         }
 
@@ -109,18 +109,23 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
 
         // 用户密码快过期的时候提醒用户
-        Instant instant = user.getPasswordExpireTime().toInstant();
-        ZonedDateTime zonedDateTime = instant.atZone(ZoneId.systemDefault());
-        LocalDateTime expireLocalTime = zonedDateTime.toLocalDateTime();
-        Duration between = Duration.between(expireLocalTime, LocalDateTime.now());
-        long days = Math.abs(between.toDays());
         String info = "";
-        if(days<=7){
-            info = "你的密码还有"+days+"天过期，请更改密码!";
+        Date passwordExpireTime = user.getPasswordExpireTime();
+        if(passwordExpireTime!=null){
+            Instant instant = passwordExpireTime.toInstant();
+            ZonedDateTime zonedDateTime = instant.atZone(ZoneId.systemDefault());
+            LocalDateTime expireLocalTime = zonedDateTime.toLocalDateTime();
+            Duration between = Duration.between(expireLocalTime, LocalDateTime.now());
+            long days = Math.abs(between.toDays());
+
+            if(days<=7){
+                info = "你的密码还有"+days+"天过期，请更改密码!";
+            }
         }
 
+
         // 4.生成token并写入redis
-        CurrentUser currentUser = new CurrentUser(user.getId(), user.getAccount(), user.getMobile());
+        CurrentUser currentUser = new CurrentUser(user.getId(), user.getAccount(), user.getName());
         String token = jwtUtils.loginSign(currentUser, digestPwd);
         LoginVo loginVo = new LoginVo();
         loginVo.setInfo(info);

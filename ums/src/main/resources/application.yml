@@ -20,8 +20,9 @@ mybatis-plus:
       logic-not-delete-value: 0
   configuration:
     map-underscore-to-camel-case: true
-  type-handlers-package:
-    com.huangsf.ums.mapper.handler
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#  mapper-locations:
+#    classpath:/mapper/**/*.xml
 
 
 ## 接口文档配置
@@ -37,6 +38,10 @@ knife4j:
           - com.huangsf.ums.controller
 server:
   port: 8080
+
+#mybatis:
+#  mapper-locations: classpath:/mapper/*.xml
+
 
 # token过期时间
 token:
