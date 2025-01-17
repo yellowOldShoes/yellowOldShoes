@@ -4,11 +4,15 @@ import cn.hutool.captcha.CircleCaptcha;
 import com.huangsf.ums.common.BaseResponse;
 import com.huangsf.ums.common.ErrorCode;
 import com.huangsf.ums.common.ResultUtils;
+import com.huangsf.ums.dto.GeoBean;
 import com.huangsf.ums.dto.RegisterDto;
+import com.huangsf.ums.entity.LoginLog;
+import com.huangsf.ums.entity.User;
 import com.huangsf.ums.exception.BusinessException;
 import com.huangsf.ums.service.UserService;
 import com.huangsf.ums.util.CaptchaUtils;
 import com.huangsf.ums.util.CurrentUser;
+import com.huangsf.ums.util.GeoIpService;
 import com.huangsf.ums.util.JwtUtils;
 import com.huangsf.ums.vo.LoginVo;
 import io.swagger.annotations.*;
@@ -18,8 +22,13 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Enumeration;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -93,16 +102,53 @@ public class UserManagerController {
      */
     @PostMapping("/login")
     @ApiOperation(value = "用户登录",notes = "属于必须填写的")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "Authorization", value = "用户认证令牌", required = true, dataType = "string", paramType = "header", defaultValue = "Bearer token")
-//    })
-
     public BaseResponse login(@ApiParam(name = "username",value = "用户名") @RequestParam("username") String username,
                               @ApiParam(name="password",value = "密码") @RequestParam("password")String password,
-                              @ApiParam(name="capture",value="验证码") @RequestParam("capture")String capture){
-
+                              @ApiParam(name="capture",value="验证码") @RequestParam("capture")String capture,
+                              HttpServletRequest request) throws Exception {
+        // 记录登录日志
+        LoginLog loginLog = new LoginLog();
+        loginLog.setAccount(username);
+        loginLog.setRequestIp(getClientIp(request));
+        loginLog.setLoginDate(LocalDate.now());
+        loginLog.setCreateTime(LocalDateTime.now());
+        loginLog.setBrowser(getBrowserFromUserAgent(request.getHeader("User-Agent")));
+        loginLog.setOperatingSystem(getOperatingSystemFromUserAgent(request.getHeader("User-Agent")));
+        loginLog.setDescription("用户登录");
+        GeoBean locationByIP = GeoIpService.getLocationByIP(getClientIp(request));
+        loginLog.setLocation(locationByIP.getCity());
         LoginVo loginResult = userService.login(username, password, capture);
         return ResultUtils.success(loginResult);
+    }
+
+    // 获取客户端 IP，支持 X-Forwarded-For
+    private String getClientIp(HttpServletRequest request) {
+        String ip = request.getHeader("X-Forwarded-For");
+        if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getRemoteAddr();
+        }
+        return ip;
+    }
+
+    // 从 User-Agent 提取浏览器名称（简单示例）
+    private String getBrowserFromUserAgent(String userAgent) {
+        if (userAgent == null) return "未知浏览器";
+        if (userAgent.contains("Chrome")) return "Chrome";
+        if (userAgent.contains("Firefox")) return "Firefox";
+        if (userAgent.contains("Safari")) return "Safari";
+        if (userAgent.contains("Edge")) return "Edge";
+        return "其他";
+    }
+
+    // 从 User-Agent 提取操作系统（简单示例）
+    private String getOperatingSystemFromUserAgent(String userAgent) {
+        if (userAgent == null) return "未知系统";
+        if (userAgent.contains("Windows")) return "Windows";
+        if (userAgent.contains("Mac")) return "MacOS";
+        if (userAgent.contains("Linux")) return "Linux";
+        if (userAgent.contains("Android")) return "Android";
+        if (userAgent.contains("iPhone") || userAgent.contains("iPad")) return "iOS";
+        return "其他";
     }
 
 
@@ -110,16 +156,16 @@ public class UserManagerController {
      * 获取所有用户
      * @return
      */
-    @GetMapping("/list")
+    @GetMapping
     @ApiOperation(value = "用户列表",notes = "属于必须填写的")
     @ApiImplicitParams({
         @ApiImplicitParam(name = "Authorization", value = "用户认证令牌", required = true, dataType = "string", paramType = "header", defaultValue = "Bearer token")
     })
     public BaseResponse list(@RequestHeader("Authorization") String auth){
         CurrentUser currentUser = JwtUtils.getCurrentUser(auth);
+        List<User> list = userService.list(currentUser);
 
-
-        return ResultUtils.success(currentUser);
+        return ResultUtils.success(list);
     }
 
     @GetMapping("/getCurrentUser")
@@ -134,6 +180,7 @@ public class UserManagerController {
      * 添加用户
      * @return
      */
+    @PostMapping
     public BaseResponse addUser(@RequestHeader("Authorization") String auth){
 
 

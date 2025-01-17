@@ -8,6 +8,7 @@ import com.huangsf.ums.config.WhiteListConfig;
 import com.huangsf.ums.constant.SystemConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.*;
@@ -27,6 +28,8 @@ public class TokenFilter implements Filter {
     private StringRedisTemplate stringRedisTemplate;
 
     private WhiteListConfig whiteListConfig;
+
+    private final AntPathMatcher pathMatcher = new AntPathMatcher(); // 支持通配符匹配
 
     public void setStringRedisTemplate(StringRedisTemplate stringRedisTemplate){
         this.stringRedisTemplate = stringRedisTemplate;
@@ -55,7 +58,7 @@ public class TokenFilter implements Filter {
           白名单请求都直接放行:
          */
         List<String> whiteList = whiteListConfig.getUrls();
-        if(whiteList.contains(path)){
+        if(isWhiteListed(path,whiteList)){
             chain.doFilter(request, response);
             return;
         }
@@ -79,4 +82,15 @@ public class TokenFilter implements Filter {
         out.close();
     }
 
+    /**
+     * 判断路径是否在白名单中
+     */
+    private boolean isWhiteListed(String path, List<String> whiteList) {
+        for (String whitePath : whiteList) {
+            if (pathMatcher.match(whitePath, path)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

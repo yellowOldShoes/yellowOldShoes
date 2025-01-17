@@ -37,7 +37,7 @@ public class ServletConfig {
         //注册SecurityFilter
         filterRegistrationBean.setFilter(securityFilter);
         //配置SecurityFilter拦截所有请求
-        filterRegistrationBean.addUrlPatterns("/user/*","/menu/*");
+        filterRegistrationBean.addUrlPatterns("*");
 
         return filterRegistrationBean;
     }

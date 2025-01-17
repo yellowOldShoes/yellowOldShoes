@@ -8,14 +8,14 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.huangsf.ums.entity.Menu">
-        <id column="id" jdbcType="BIGINT" property="id"/>
+        <id column="id" jdbcType="BIGINT" property="key"/>
         <result column="create_user" jdbcType="BIGINT" property="createUser"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="update_user" jdbcType="BIGINT" property="updateUser"/>
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
-        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="name" jdbcType="VARCHAR" property="title"/>
         <result column="describe_" jdbcType="VARCHAR" property="describe"/>
-        <result column="redirect" javaType="VARCHAR" property="redirect"/>
+        <result column="redirect" jdbcType="VARCHAR" property="redirect"/>
         <result column="is_public" jdbcType="BIT" property="isPublic"/>
         <result column="path" jdbcType="VARCHAR" property="path"/>
         <result column="component" jdbcType="VARCHAR" property="component"/>

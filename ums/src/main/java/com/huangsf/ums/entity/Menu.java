@@ -22,10 +22,12 @@ import java.util.List;
 public class Menu implements Serializable {
 
     @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    private Long key;
 
-    private String name;
+    @TableField(value = "name")
+    private String title;
 
+    @TableField(value="describe_")
     private String describe;
 
     private Boolean isPublic;

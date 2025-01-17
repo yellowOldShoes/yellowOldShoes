@@ -26,7 +26,7 @@ public class Role implements Serializable {
 
     private String code;
 
-    private String describe;
+    private String describe_;
 
     private Boolean status;
 

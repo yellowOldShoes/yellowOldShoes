@@ -141,6 +141,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         //2 不是管理员只能看到自己创建的人员
 
 
-        return null;
+        QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+        userQueryWrapper.eq("status", 0);
+        return baseMapper.selectList(userQueryWrapper);
     }
 }

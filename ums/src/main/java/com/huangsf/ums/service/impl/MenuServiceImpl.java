@@ -52,7 +52,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
 
         // 对每个子菜单进行递归构建子菜单列表
         children.forEach(menu -> {
-            List<Menu> subMenus = generatorTree(menus, menu.getId());
+            List<Menu> subMenus = generatorTree(menus, menu.getKey());
             menu.setChildren(subMenus); // 为当前菜单设置子菜单
         });
 

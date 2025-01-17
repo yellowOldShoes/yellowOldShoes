@@ -1,6 +1,7 @@
 package com.huangsf.ums.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -9,6 +10,7 @@ import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Entity for the "user_organization" table
@@ -34,7 +36,7 @@ public class UserOrganization implements Serializable {
 
     private Boolean status;
 
-    private String describe;
+    private String describe_;
 
     private Date createTime;
 
@@ -43,4 +45,7 @@ public class UserOrganization implements Serializable {
     private Date updateTime;
 
     private Long updateUser;
+
+    @TableField(exist = false)
+    private List<UserOrganization> children;
 }

@@ -54,4 +54,8 @@ white-list:
     - /user/logout
     - /user/getCapture
     - /user/register
+    - /doc.html
+    - /swagger-resources/**
+    - /v2/api-docs/**
+    - /webjars/**
 
