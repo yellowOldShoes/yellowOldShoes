@@ -1,6 +1,8 @@
 package com.huangsf.ums;
 
 import com.huangsf.ums.config.WhiteListConfig;
+import com.huangsf.ums.constant.SystemConstant;
+import com.huangsf.ums.model.User;
 import com.huangsf.ums.util.GeoIpService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,15 +11,13 @@ import org.junit.jupiter.api.Test;
 import org.lionsoul.ip2region.xdb.Searcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.util.DigestUtils;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @SpringBootTest
@@ -118,6 +118,16 @@ class UmsApplicationTests {
         }
 
         // 备注：并发使用，每个线程需要创建一个独立的 searcher 对象单独使用。
+    }
+
+    @Test
+    void cteateUser(){
+        User user = new User();
+        String password = "123456";
+        password = DigestUtils.md5DigestAsHex((password+ SystemConstant.SALT).getBytes());
+        user.setPassword(password);
+        user.setName("刘协");
+        user.setAccount("liuxie@qq.com");
     }
 
 }
