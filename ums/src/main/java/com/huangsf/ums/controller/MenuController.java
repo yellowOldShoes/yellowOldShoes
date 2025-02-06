@@ -3,8 +3,8 @@ package com.huangsf.ums.controller;
 import cn.hutool.core.bean.BeanUtil;
 import com.huangsf.ums.common.BaseResponse;
 import com.huangsf.ums.common.ResultUtils;
-import com.huangsf.ums.entity.Menu;
-import com.huangsf.ums.service.MenuService;
+import com.huangsf.ums.model.Menu;
+import com.huangsf.ums.service.IMenuService;
 import com.huangsf.ums.vo.MenuVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -26,7 +26,7 @@ import java.util.List;
 public class MenuController {
 
     @Resource
-    MenuService menuService;
+    IMenuService menuService;
 
     @GetMapping
     @ApiOperation(value = "菜单按钮",notes = "属于必须填写的")
@@ -34,34 +34,9 @@ public class MenuController {
             @ApiImplicitParam(name = "Authorization", value = "用户认证令牌", required = true, dataType = "string", paramType = "header", defaultValue = "Bearer token")
     })
     public BaseResponse getTreeMenu(@RequestHeader("Authorization") String auth){
-        List<Menu> menus = menuService.listAllMenu(auth);
-        List<MenuVo> menuVos = copyProperties(menus);
-        BaseResponse<List<MenuVo>> success = ResultUtils.success(menuVos);
+        List<Menu> menus = menuService.getMenuByUserId(auth);
+        BaseResponse<List<Menu>> success = ResultUtils.success(menus);
         return success;
-    }
-
-    private List<MenuVo> copyProperties(List<Menu> menus){
-
-        List<MenuVo> list = new ArrayList<>();
-        for(Menu menu:menus){
-            MenuVo menuVo = new MenuVo();
-            menuVo.setKey(menu.getKey().toString());
-            menuVo.setTitle(menu.getTitle());
-            menuVo.setPath(menu.getPath());
-            menuVo.setDescribe_(menu.getDescribe());
-            menuVo.setParentId(menu.getParentId());
-            menuVo.setIsEnable(menu.getIsEnable());
-            menuVo.setComponent(menu.getComponent());
-            menuVo.setIcon(menu.getIcon());
-            List<Menu> children = menu.getChildren();
-            if(children.size()>0){
-                List<MenuVo> menuVos = copyProperties(children);
-                menuVo.setChildren(menuVos);
-            }
-            list.add(menuVo);
-        }
-
-        return list;
     }
 
     @PostMapping
@@ -86,7 +61,7 @@ public class MenuController {
 //        Menu menu = new Menu();
 //        BeanUtil.copyProperties(menuvo, menu);
         Menu menu = BeanUtil.copyProperties(menuvo, Menu.class, "key");
-        menu.setKey(id);
+//        menu.setKey(id);
         boolean b = menuService.updateById(menu);
         return ResultUtils.success("更新成功:"+b);
     }

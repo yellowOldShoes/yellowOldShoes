@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @SpringBootApplication
-@MapperScan("com.huangsf.ums.mapper")
+@MapperScan("com.huangsf.ums.dao")
 @EnableConfigurationProperties(WhiteListConfig.class)
 public class UmsApplication {
 

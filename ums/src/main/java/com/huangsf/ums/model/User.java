@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -91,6 +93,12 @@ public class User implements Serializable {
     private String workDescribe;
 
     /**
+     * 是否是超级管理员
+     */
+    @TableField("is_admin")
+    private boolean isAdmin;
+
+    /**
      * 密码哈希值
      */
     @TableField("password_hash")
@@ -100,19 +108,22 @@ public class User implements Serializable {
      * 最后登录时间
      */
     @TableField("last_login_time")
-    private LocalDateTime lastLoginTime;
+    private Date lastLoginTime;
+
+    @TableField("password_expire_Time")
+    private Date passwordExpireTime;
 
     /**
      * 创建时间
      */
     @TableField("create_time")
-    private LocalDateTime createTime;
+    private Date createTime;
 
     /**
      * 更新时间
      */
     @TableField("update_time")
-    private LocalDateTime updateTime;
+    private Date updateTime;
 
 
 }

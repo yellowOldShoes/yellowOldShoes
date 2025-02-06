@@ -3,6 +3,7 @@ package com.huangsf.ums;
 import com.huangsf.ums.config.WhiteListConfig;
 import com.huangsf.ums.constant.SystemConstant;
 import com.huangsf.ums.model.User;
+import com.huangsf.ums.service.UserService;
 import com.huangsf.ums.util.GeoIpService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,9 +15,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.DigestUtils;
 
 import java.io.IOException;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -31,6 +36,8 @@ class UmsApplicationTests {
         private String name;
     }
 
+    @Autowired
+    UserService userService;
     @Test
     void contextLoads() {
 //        // 获取当前时间
@@ -125,9 +132,22 @@ class UmsApplicationTests {
         User user = new User();
         String password = "123456";
         password = DigestUtils.md5DigestAsHex((password+ SystemConstant.SALT).getBytes());
-        user.setPassword(password);
         user.setName("刘协");
         user.setAccount("liuxie@qq.com");
+        user.setPasswordHash(password);
+        user.setStatus(true);
+        user.setPosition("皇帝");
+        user.setRegionId(1L);
+        user.setWorkDescribe("天之骄子，人上人");
+//        LocalDateTime expireTime = LocalDateTime.now().plusDays(7);
+        LocalDateTime localDateTime = LocalDateTime.now().plusDays(7);
+        ZoneId zoneId = ZoneId.systemDefault();
+
+        ZonedDateTime zonedDateTime = localDateTime.atZone(zoneId);
+        Instant instant = zonedDateTime.toInstant();
+        Date from = Date.from(instant);
+        user.setPasswordExpireTime(from);
+        userService.save(user);
     }
 
 }

@@ -4,9 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.huangsf.ums.common.ErrorCode;
 import com.huangsf.ums.dto.RegisterDto;
-import com.huangsf.ums.entity.User;
+import com.huangsf.ums.model.User;
 import com.huangsf.ums.exception.BusinessException;
-import com.huangsf.ums.mapper.sys.UserMapper;
+import com.huangsf.ums.dao.UserMapper;
 import com.huangsf.ums.service.UserService;
 import com.huangsf.ums.util.CurrentUser;
 import com.huangsf.ums.util.JwtUtils;
@@ -63,7 +63,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
         User user = new User();
         BeanUtils.copyProperties(registerDto, user);
-        user.setPassword(digPassword);
+        user.setPasswordHash(digPassword);
 
         //设置有效期两个月
         LocalDateTime localDateTime = LocalDateTime.now().plusDays(7);
@@ -74,6 +74,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         Date from = Date.from(instant);
 
         user.setPasswordExpireTime(from);
+        user.setCreateTime(new Date());
         user.setCreateTime(new Date());
 
         // 3.保存用户数据
@@ -98,7 +99,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
         String digestPwd = DigestUtils.md5DigestAsHex((password + SALT).getBytes());
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
-        userQueryWrapper.eq("account", account).eq("password", digestPwd);
+        userQueryWrapper.eq("account", account).eq("password_hash", digestPwd);
         User user = this.baseMapper.selectOne(userQueryWrapper);
         if(user==null){
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "用户名或密码错误");
@@ -125,7 +126,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
 
         // 4.生成token并写入redis
-        CurrentUser currentUser = new CurrentUser(user.getId(), user.getAccount(), user.getName());
+        CurrentUser currentUser = new CurrentUser(user.getId(), user.getAccount(), user.getName(),user.isAdmin());
         String token = jwtUtils.loginSign(currentUser, digestPwd);
         LoginVo loginVo = new LoginVo();
         loginVo.setInfo(info);

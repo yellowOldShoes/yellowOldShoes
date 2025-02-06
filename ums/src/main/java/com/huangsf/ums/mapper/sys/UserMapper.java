@@ -1,7 +1,7 @@
 package com.huangsf.ums.mapper.sys;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.huangsf.ums.entity.User;
+import com.huangsf.ums.model.User;
 
 /**
  * @author huangsf

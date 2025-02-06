@@ -2,8 +2,7 @@ package com.huangsf.ums.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.huangsf.ums.dto.RegisterDto;
-import com.huangsf.ums.entity.Menu;
-import com.huangsf.ums.entity.User;
+import com.huangsf.ums.model.User;
 import com.huangsf.ums.util.CurrentUser;
 import com.huangsf.ums.vo.LoginVo;
 

@@ -14,4 +14,6 @@ public class CurrentUser {
     private String account;
     private String name;
 //    private String role;
+
+    private boolean isAdmin;
 }

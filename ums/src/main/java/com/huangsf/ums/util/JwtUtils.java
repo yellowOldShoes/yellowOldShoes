@@ -35,8 +35,14 @@ public class JwtUtils {
     //token中存放用户真实姓名对应的名字
     private static final String CLAIM_NAME_USERNAME = "CLAIM_NAME_USERNAME";
 
+    //token中存放用户是否是超级管理员
+    private static final String CLAIM_NAME_ISADMIN = "CLAIM_NAME_ISADMIN";
+
     private String sign(CurrentUser currentUser, String securityKey) {
-        String token = JWT.create().withClaim(CLAIM_NAME_USERID, currentUser.getId()).withClaim(CLAIM_NAME_ACCOUNT, currentUser.getAccount()).withClaim(CLAIM_NAME_USERNAME, currentUser.getName()).withIssuedAt(new Date())//发行时间
+        String token = JWT.create().withClaim(CLAIM_NAME_USERID, currentUser.getId())
+                                   .withClaim(CLAIM_NAME_ACCOUNT, currentUser.getAccount())
+                                   .withClaim(CLAIM_NAME_USERNAME, currentUser.getName())
+                .withClaim(CLAIM_NAME_ISADMIN,currentUser.isAdmin()).withIssuedAt(new Date())//发行时间
                 .withExpiresAt(new Date(System.currentTimeMillis() + expireTime * 1000))//有效时间
                 .sign(Algorithm.HMAC256(securityKey));
 
@@ -74,10 +80,11 @@ public class JwtUtils {
         Long userId = decodedJWT.getClaim(CLAIM_NAME_USERID).asLong();//用户账号id
         String ACCOUNT = decodedJWT.getClaim(CLAIM_NAME_ACCOUNT).asString();//用户昵称
         String userName = decodedJWT.getClaim(CLAIM_NAME_USERNAME).asString();//用户姓名
+        Boolean isAdmin = decodedJWT.getClaim(CLAIM_NAME_ISADMIN).asBoolean();//用户姓名
         if (StringUtils.isEmpty(ACCOUNT) || StringUtils.isEmpty(userName)) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "令牌缺失用户信息，请登录！");
         }
-        return new CurrentUser(userId,userName,ACCOUNT);
+        return new CurrentUser(userId,userName,ACCOUNT,isAdmin);
     }
 
 }
