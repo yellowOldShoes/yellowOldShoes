@@ -1,6 +1,7 @@
 package com.huangsf.ums.service;
 
-import com.huangsf.ums.model.Resource;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.huangsf.ums.model.ResourceEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,6 +12,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author huangsf
  * @since 2025-02-05
  */
-public interface IResourceService extends IService<Resource> {
+public interface IResourceService extends IService<ResourceEntity> {
 
 }

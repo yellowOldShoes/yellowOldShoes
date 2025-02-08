@@ -3,7 +3,7 @@
 <mapper namespace="com.huangsf.ums.mapper.sys.ResourceMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.huangsf.ums.entity.Resource">
+    <resultMap id="BaseResultMap" type="com.huangsf.ums.entity.ResourceEntity">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="create_user" jdbcType="BIGINT" property="createUser"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>

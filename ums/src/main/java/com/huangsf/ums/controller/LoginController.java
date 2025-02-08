@@ -27,7 +27,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -38,7 +37,7 @@ import java.util.concurrent.TimeUnit;
 @Api(tags = "用户接口集")
 @RestController
 @RequestMapping("/user")
-public class UserManagerController {
+public class LoginController {
 
     @Resource
     CaptchaUtils captchaUtils;
@@ -152,21 +151,7 @@ public class UserManagerController {
     }
 
 
-    /**
-     * 获取所有用户
-     * @return
-     */
-    @GetMapping
-    @ApiOperation(value = "用户列表",notes = "属于必须填写的")
-    @ApiImplicitParams({
-        @ApiImplicitParam(name = "Authorization", value = "用户认证令牌", required = true, dataType = "string", paramType = "header", defaultValue = "Bearer token")
-    })
-    public BaseResponse list(@RequestHeader("Authorization") String auth){
-        CurrentUser currentUser = JwtUtils.getCurrentUser(auth);
-        List<User> list = userService.list(currentUser);
 
-        return ResultUtils.success(list);
-    }
 
     @GetMapping("/getCurrentUser")
     @ApiOperation(value = "获取当前登录用户")
@@ -174,29 +159,6 @@ public class UserManagerController {
 
         CurrentUser currentUser = JwtUtils.getCurrentUser(auth);
         return ResultUtils.success(currentUser);
-    }
-
-    /**
-     * 添加用户
-     * @return
-     */
-    @PostMapping
-    public BaseResponse addUser(@RequestHeader("Authorization") String auth){
-
-
-
-
-
-        return null;
-    }
-
-    /**
-     * 更新用户
-     * @return
-     */
-    public BaseResponse update(){
-
-        return null;
     }
 
 }

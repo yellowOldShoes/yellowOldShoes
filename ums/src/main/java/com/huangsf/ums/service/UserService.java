@@ -19,7 +19,7 @@ public interface UserService extends IService<User> {
 
     LoginVo login(String username, String password, String captcha);
 
-    List<User> list(CurrentUser currentUser);
+
 
 
 }

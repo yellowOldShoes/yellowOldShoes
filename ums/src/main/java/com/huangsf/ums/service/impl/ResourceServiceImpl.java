@@ -1,6 +1,6 @@
 package com.huangsf.ums.service.impl;
 
-import com.huangsf.ums.model.Resource;
+import com.huangsf.ums.model.ResourceEntity;
 import com.huangsf.ums.dao.ResourceMapper;
 import com.huangsf.ums.service.IResourceService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2025-02-05
  */
 @Service
-public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> implements IResourceService {
+public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, ResourceEntity> implements IResourceService {
 
 }

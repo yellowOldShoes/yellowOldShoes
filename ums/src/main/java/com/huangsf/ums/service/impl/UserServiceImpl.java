@@ -134,16 +134,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return loginVo;
     }
 
-    @Override
-    public List<User> list(CurrentUser currentUser) {
-//        this.baseMapper.selectById(currentUser.getId())
-        //1 当前用户如果是管理员能看到所有人员
-
-        //2 不是管理员只能看到自己创建的人员
-
-
-        QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
-        userQueryWrapper.eq("status", 0);
-        return baseMapper.selectList(userQueryWrapper);
-    }
+//    @Override
+//    public List<User> list(CurrentUser currentUser) {
+////        this.baseMapper.selectById(currentUser.getId())
+//        //1 当前用户如果是管理员能看到所有人员
+//
+//        //2 不是管理员只能看到自己创建的人员
+//
+//
+//        QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+//        userQueryWrapper.eq("status", 0);
+//        return baseMapper.selectList(userQueryWrapper);
+//    }
 }

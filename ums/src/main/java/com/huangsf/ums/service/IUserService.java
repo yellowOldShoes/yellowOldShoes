@@ -2,6 +2,9 @@ package com.huangsf.ums.service;
 
 import com.huangsf.ums.model.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.huangsf.ums.util.CurrentUser;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IUserService extends IService<User> {
 
+    List<User> list(CurrentUser currentUser);
 }

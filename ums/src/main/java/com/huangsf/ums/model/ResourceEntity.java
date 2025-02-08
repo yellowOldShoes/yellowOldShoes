@@ -20,7 +20,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @TableName("resource")
-public class Resource implements Serializable {
+public class ResourceEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -65,6 +65,12 @@ public class Resource implements Serializable {
      */
     @TableField("department_id")
     private Long departmentId;
+
+    /**
+     * 资源所属菜单ID
+     */
+    @TableField("menu_id")
+    private Long menuId;
 
     /**
      * 资源敏感级别

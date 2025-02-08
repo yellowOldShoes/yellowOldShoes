@@ -17,7 +17,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("resource")
-public class Resource implements Serializable {
+public class ResourceEntity implements Serializable {
 
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;

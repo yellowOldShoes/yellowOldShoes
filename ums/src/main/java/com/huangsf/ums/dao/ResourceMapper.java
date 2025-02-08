@@ -1,6 +1,6 @@
 package com.huangsf.ums.dao;
 
-import com.huangsf.ums.model.Resource;
+import com.huangsf.ums.model.ResourceEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author huangsf
  * @since 2025-02-05
  */
-public interface ResourceMapper extends BaseMapper<Resource> {
+public interface ResourceMapper extends BaseMapper<ResourceEntity> {
 
 }
