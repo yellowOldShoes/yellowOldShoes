@@ -1,6 +1,7 @@
 
 
 #----------------------------------------------------------------------------------------------------
+
 ## 用户表
 CREATE TABLE `user` (
                         `id` BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT '用户ID',
@@ -88,7 +89,6 @@ CREATE TABLE `policy` (
                           PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='策略规则表';
 
-
 CREATE TABLE `casbin_rule` (
                                `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
                                `ptype` varchar(100) NOT NULL COMMENT '策略类型（如 p 或 g）',
@@ -100,7 +100,6 @@ CREATE TABLE `casbin_rule` (
                                `v5` varchar(100) DEFAULT NULL COMMENT '可扩展字段',
                                PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Casbin rbac 策略表';
-
 
 CREATE TABLE `attribute_mapping` (
                                      `id` BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT '属性ID',
