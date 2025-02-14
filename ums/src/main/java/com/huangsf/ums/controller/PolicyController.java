@@ -1,7 +1,14 @@
 package com.huangsf.ums.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.huangsf.ums.common.BaseResponse;
+import com.huangsf.ums.common.ResultUtils;
+import com.huangsf.ums.model.Policy;
+import com.huangsf.ums.service.IPolicyService;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import javax.xml.transform.Result;
+import java.util.List;
 
 /**
  * <p>
@@ -15,4 +22,33 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/policy")
 public class PolicyController {
 
+    @Resource
+    IPolicyService policyService;
+
+    @GetMapping
+    public BaseResponse list(){
+        List<Policy> list = policyService.list();
+        return ResultUtils.success(list);
+    }
+
+    @PostMapping
+    public BaseResponse create(@RequestBody Policy policy){
+
+        policyService.save(policy);
+        return ResultUtils.success("ok");
+    }
+
+
+    @PutMapping
+    public BaseResponse update(){
+
+        return ResultUtils.success("");
+    }
+
+
+    @DeleteMapping
+    public BaseResponse delete(){
+
+        return ResultUtils.success("");
+    }
 }

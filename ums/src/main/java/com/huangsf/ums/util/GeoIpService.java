@@ -1,19 +1,10 @@
 package com.huangsf.ums.util;
 
 import com.huangsf.ums.dto.GeoBean;
-import com.maxmind.geoip2.DatabaseReader;
-import com.maxmind.geoip2.model.CityResponse;
-import com.maxmind.geoip2.record.City;
-import com.maxmind.geoip2.record.Country;
 import org.apache.commons.lang3.StringUtils;
 import org.lionsoul.ip2region.xdb.Searcher;
-import org.springframework.core.io.ClassPathResource;
 
-import javax.annotation.Resource;
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.InetAddress;
 import java.util.concurrent.TimeUnit;
 
 /**

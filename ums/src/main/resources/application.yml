@@ -22,6 +22,8 @@ mybatis-plus:
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 #  mapper-locations:
+#    classpath: /mappers/*.xml
+#  mapper-locations:
 #    classpath:/mapper/**/*.xml
 
 
@@ -38,9 +40,6 @@ knife4j:
           - com.huangsf.ums.controller
 server:
   port: 8080
-
-#mybatis:
-#  mapper-locations: classpath:/mapper/*.xml
 
 
 # token过期时间

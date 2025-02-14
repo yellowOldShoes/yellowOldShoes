@@ -42,6 +42,12 @@ public class RoleController {
         return ResultUtils.success(roles);
     }
 
+    @PostMapping
+    public BaseResponse create(@RequestBody Role role){
+        roleService.save(role);
+        return ResultUtils.success("ok");
+    }
+
     @GetMapping("/permissions")
     public BaseResponse getPermissions(@RequestParam("roleId") Long roleId){
 

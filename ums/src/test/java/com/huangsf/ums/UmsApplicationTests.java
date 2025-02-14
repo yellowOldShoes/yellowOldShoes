@@ -3,7 +3,7 @@ package com.huangsf.ums;
 import com.huangsf.ums.config.WhiteListConfig;
 import com.huangsf.ums.constant.SystemConstant;
 import com.huangsf.ums.model.User;
-import com.huangsf.ums.service.UserService;
+import com.huangsf.ums.service.UserLoginService;
 import com.huangsf.ums.util.GeoIpService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -37,7 +37,7 @@ class UmsApplicationTests {
     }
 
     @Autowired
-    UserService userService;
+    UserLoginService userService;
     @Test
     void contextLoads() {
 //        // 获取当前时间

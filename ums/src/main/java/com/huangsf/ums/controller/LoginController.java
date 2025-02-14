@@ -8,8 +8,7 @@ import com.huangsf.ums.dto.GeoBean;
 import com.huangsf.ums.dto.RegisterDto;
 import com.huangsf.ums.entity.LoginLog;
 import com.huangsf.ums.exception.BusinessException;
-import com.huangsf.ums.model.User;
-import com.huangsf.ums.service.UserService;
+import com.huangsf.ums.service.UserLoginService;
 import com.huangsf.ums.util.CaptchaUtils;
 import com.huangsf.ums.util.CurrentUser;
 import com.huangsf.ums.util.GeoIpService;
@@ -27,7 +26,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -46,7 +44,7 @@ public class LoginController {
     StringRedisTemplate stringRedisTemplate;
 
     @Resource
-    UserService userService;
+    UserLoginService userService;
 
     /**
      * 注册

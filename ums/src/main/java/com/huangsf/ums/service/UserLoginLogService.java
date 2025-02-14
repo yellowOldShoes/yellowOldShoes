@@ -8,4 +8,6 @@ import com.huangsf.ums.entity.LoginLog;
  * @create 2025-01-16  16:06
  */
 public interface UserLoginLogService extends IService<LoginLog> {
+
+
 }
